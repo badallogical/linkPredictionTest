@@ -1,4 +1,5 @@
 from cmath import log
+from turtle import width
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
@@ -58,37 +59,47 @@ G.add_edge(2,3)
 G.add_edge(2,5)
 G.add_edge(3,4)
 
-nx.draw(G,with_labels=True)
+
+
 N = [None] * (len(G.nodes()) +1)
 nodes = G.nodes()
 print("edges : ", len(G.edges()))
-
-
 
 # get neighbours of  node i
 for i in nodes:
   N[i] = np.array([n for n in G.neighbors(i)])
 
-for i in nodes:
-  print("neighbour %d => %s" % (i,N[i]) , "length ", len(N[i]) )
+for edge in G.edges:
+  G[edge[0]][edge[1]]['color'] = 'blue';
+  G[edge[0]][edge[1]]['width'] = 1;
+
+
+
+
+# for i in nodes:
+#   print("neighbour %d => %s" % (i,N[i]) , "length ", len(N[i]) )
 
 # find common neighbour between , Ni intersection Nj ( similarity function(x,y) )
-for i in nodes:
-  for j in nodes:
-    if( i != j ):
-      print( "N[{}] , N[{}] = > ".format(i,j) ,np.intersect1d(N[i], N[j]))
+# for i in nodes:
+#   for j in nodes:
+#     if( i != j ):
+#       print( "N[{}] , N[{}] = > ".format(i,j) ,np.intersect1d(N[i], N[j]))
 
+# # find all the unconnected nodes p(K) i.e similarity value
+# adj = nx.to_numpy_array(G)
+# print(adj)
 
-# find all the unconnected nodes p(K) i.e similarity value
-adj = nx.to_numpy_array(G)
-print(adj)
-
-non_edges = [ i for i in nx.non_edges(G)]
+non_edges = [ i for i in nx.non_edges(G) ]
 for k in non_edges:
   similarity = SULP(N,k[0],k[1])
   print( k , N[k[0]], N[k[1]] , " intersection " ,np.intersect1d(N[k[0]], N[k[1]]) , " p(k) = ", similarity);
+  G.add_edge(k[0],k[1],width=4*similarity);
+  G[k[0]][k[1]]['color']= "red"
+  G[k[0]][k[1]]['width'] = 3 * similarity;
 
-
+colors = [G[u][v]['color'] for u,v in G.edges()]
+widths = [G[u][v]['width'] for u,v in G.edges()]
+nx.draw(G,pos = nx.spectral_layout(G), edge_color=colors,width=widths,with_labels=True )
 plt.show()
       
   
