@@ -12,7 +12,7 @@ def commmonNeighbour(N, i, j ):
   return similarity;
 
 def jaccardCoefficient(N,i,j):
-  similarity = len ( np.intersect1d( N[i], N[j] ) ) / ( len( np.union1d(N[i], N[j])));
+  similarity = len( np.intersect1d( N[i], N[j] ) ) / ( len( np.union1d(N[i], N[j])));
   return similarity;
 
 def adamicAdarIndex(N,i,j):
@@ -39,11 +39,8 @@ def resourceAllocationIndex(N, i, j ):
   for z in mutualResources:
     kz = len(N[z] );  # degree of mutual resourse z
     similarity += 1 / kz;   
-  
+    
   return similarity
-
-  
-
 
 
 # find the neighbours of each node.
@@ -59,8 +56,6 @@ G.add_edge(2,3)
 G.add_edge(2,5)
 G.add_edge(3,4)
 
-
-
 N = [None] * (len(G.nodes()) +1)
 nodes = G.nodes()
 print("edges : ", len(G.edges()))
@@ -73,22 +68,6 @@ for edge in G.edges:
   G[edge[0]][edge[1]]['color'] = 'blue';
   G[edge[0]][edge[1]]['width'] = 1;
 
-
-
-
-# for i in nodes:
-#   print("neighbour %d => %s" % (i,N[i]) , "length ", len(N[i]) )
-
-# find common neighbour between , Ni intersection Nj ( similarity function(x,y) )
-# for i in nodes:
-#   for j in nodes:
-#     if( i != j ):
-#       print( "N[{}] , N[{}] = > ".format(i,j) ,np.intersect1d(N[i], N[j]))
-
-# # find all the unconnected nodes p(K) i.e similarity value
-# adj = nx.to_numpy_array(G)
-# print(adj)
-
 non_edges = [ i for i in nx.non_edges(G) ]
 for k in non_edges:
   similarity = SULP(N,k[0],k[1])
@@ -99,7 +78,7 @@ for k in non_edges:
 
 colors = [G[u][v]['color'] for u,v in G.edges()]
 widths = [G[u][v]['width'] for u,v in G.edges()]
-nx.draw(G,pos = nx.spectral_layout(G), edge_color=colors,width=widths,with_labels=True )
+nx.draw(G, pos = nx.spectral_layout(G), edge_color=colors, width=widths, with_labels=True )
 plt.show()
       
   
