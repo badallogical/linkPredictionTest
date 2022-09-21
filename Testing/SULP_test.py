@@ -13,6 +13,7 @@ G = nx.from_pandas_edgelist(fb_df, 'DOID1', 'DOID2',None,create_using= nx.Graph(
 # spliting train , test data fro non edges 
 edge_train, edge_test = train_test_split(fb_df,test_size=0.3,random_state=32)
 
+
 print("data " ,fb_df.size)
 print("test data " ,len(edge_test))
 print("train data " ,len(edge_train))
