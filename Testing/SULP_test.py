@@ -68,9 +68,15 @@ print("Total non_edges :", len(non_edges_df) )
 print("Non edges for test : ", len(non_edge_test))
 print("Non edges for train : ", len(non_edge_train))
 
+# collect non edges of test
 actual_non_edges_test = []
 for index, row in non_edge_test.iterrows():
   actual_non_edges_test.append([row['DOID1'], row['DOID2']])
+
+# collect non edge for training
+actual_non_edges_train = []
+for index, row in non_edge_train.iterrows():
+  actual_non_edges_train.append([row['DOID1'], row['DOID2']])
 
 for non_edge in actual_non_edges_test:
   ni = np.array([n for n in G.neighbors(non_edge[0])])
@@ -80,9 +86,9 @@ for non_edge in actual_non_edges_test:
         G.add_edge(non_edge[0], non_edge[1])
         G[non_edge[0]][non_edge[1]]['color']= "blue"
         G[non_edge[0]][non_edge[1]]['width'] = 2
-        FP = FP + 1
+        
   else:
-      TN = TN + 1
+     
 
 # Precission
 precision = TP / ( TP + FP )
